@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Viewer</title>
+</head>
+<body>
+    <pre id="log"></pre>
+    <script>
+        const logElement = document.getElementById('log');
+        const ws = new WebSocket('wss://<url>:8443');
+
+        ws.onmessage = (event) => {
+            logElement.textContent += event.data;
+            logElement.scrollTop = logElement.scrollHeight;
+        };
+    </script>
+</body>
+</html>
