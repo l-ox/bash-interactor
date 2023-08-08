@@ -1,19 +1,17 @@
+#!/usr/bin/env node
 const WebSocket = require('ws');
-const fs = require('fs');
+const { spawn } = require('child_process');
+const ws = new WebSocket.Server({ port: 8080 });
 
-const wss = new WebSocket.Server({ port: 8443 });
-
-wss.on('connection', (ws) => {
-    console.log('Client connected successfully!');
-
-    const logFileStream = fs.createReadStream('/var/log/compliance_fetch.log', { encoding: 'utf8' });
-
-    logFileStream.on('data', (data) => {
-        ws.send(data);
-    });
-
-    ws.on('close', () => {
-        console.log('Client disconnected.');
-        logFileStream.destroy();
-    });
+ws.on('connection', (socket) => {
+    console.log('Client connected!');
+    socket.onmessage = (event) => {
+        if (event.data == "<string from client>") {
+            const ls = spawn("<Bash command or path bash script>");
+            ls.stdout.on("data", data => {
+                console.log(`${data}`);
+                socket.send(`${data}`);
+            });
+        }
+    };
 });
