@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Log Viewer</title>
-</head>
-<body>
-    <pre id="log"></pre>
-    <script>
-        const logElement = document.getElementById('log');
-        const ws = new WebSocket('wss://<url>:8443');
-
-        ws.onmessage = (event) => {
-            logElement.textContent += event.data;
-            logElement.scrollTop = logElement.scrollHeight;
-        };
-    </script>
-</body>
+    <head>
+		<title>Bash Interactor</title>
+		<style>
+			.log_view {
+				width: 90%;
+				background-color: black;
+				color: white;
+				padding: 10px;
+				font-family: monospace;
+				overflow-y: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="log_view">
+			<pre id="log_content"></pre>
+        </div>
+		<button onclick="gogogadget()">Click Me!</button>
+		<script>
+			const log_content = document.getElementById('log_content');
+			const ws = new WebSocket('ws://<host:port>');
+			ws.onmessage = function (event) {
+                document.getElementById("log_content").innerHTML += (event.data);
+            }
+			function gogogadget() {
+				ws.send("<string to send to server>");
+			}
+		</script>
+	</body>
 </html>
