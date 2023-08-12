@@ -9,7 +9,7 @@ ws.on('connection', (socket) => { // When websocket server receives connection r
     console.log('Client connected!');
     socket.onmessage = (event) => {
         if (event.data == "foobar") {
-            const ls = spawn("/home/user/myscript.sh");
+            const ls = spawn("/home/user/myscript1.sh");
             ls.stdout.on("data", data => {
                 socket.send(`${data}`);
             });
@@ -23,7 +23,7 @@ ws.on('connection', (socket) => { // When websocket server receives connection r
             text = text_xform; // Rewrite newly transformed string back to "text" variable.
             var text_xform = text.replace(/`/g, '\\`'); // Prevent ` from escaping.
             text = text_xform; // Rewrite newly transformed string back to "text" variable.
-            const command = `/home/user/myscript.sh "${text}"`; // Concatenate command to run script with output from "text" value as a variable.
+            const command = `/home/user/myscript2.sh "${text}"`; // Concatenate command to run script with output from "text" value as a variable.
             exec(command, (error, stdout, stderr) => { // Run "command" and send stdout output from the script back to the client via the websocket.
                 socket.send(`${stdout}`);
             });
