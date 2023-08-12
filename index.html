@@ -2,80 +2,30 @@
 <html>
 	<head>
 		<title>Bash Interactor</title>
-		<style> <!--Set style for the "log_view" class to make it look like a terminal-->
-			.log_view {
-				width: 90%;
-				background-color: black;
-				color: white;
-				padding: 10px;
-				font-family: monospace;
-				overflow-y: auto;
-			}
-		</style>
 	</head>
 	<body>
-		<button class="button" role="button" onclick="function1()">Update Dashboard</button> <!--Create a button that calls "function1" when clicked-->
+		<button class="button" role="button" onclick="function1()">Run</button> <!--Create a button that calls "function1" when clicked-->
 		<script>
 			const log_content = document.getElementById('log_content'); <!--link "log_content" variable to "log_content" ID"-->
-			const ws = new WebSocket('wss://<ws_server_hostname/IP/port>'); <!--Connect to websocket server-->
+			const ws = new WebSocket('ws://<hostname/IP:port>'); <!--Connect to websocket server-->
 			ws.onmessage = function (event) { <!--When client recieves a message from the websocket server, append then "event.data" to the inner HTML of "log_content"-->
 				document.getElementById("log_content").innerHTML += (event.data);
 			}
 			function function1() {
 				ws.send("foobar"); <!--When button is clicked, send string "foobar" to the websocket server-->
 			}
+			function textSend() { <!--When "textSend" button is clicked, send the webhook server the string "text: " + the contents from the textbox-->
+				var text = document.getElementById('text').value;
+				ws.send("text: " + text);
+			}
 			const keepAlive = () => { <!--Keep alive to send a message to the websocket server every 20 secs to avoid socket closure-->
 				ws.send("ping");
 			};
 			setInterval(keepAlive, 20000);
-			function test-send() { <!--When "test-send" button is clicked, take send the webhook server the string "text: " + the contents from the textbox-->
-				var text = document.getElementById('text').value;
-				ws.send("text: " + text);
-			}
 		</script>
-		<div class="log_view"> <!--Div to display messages back from websocket server-->
-			<pre id="log_content"></pre>
-		</div>
-		<label for="text:">Text: </label> 
-		<p><input type="text" id="text" name="text"/></p> <!--Text box for the "test-send" function-->
-		<p><button class="button" role="button" onclick="test-send()">Send</button></p> <!--Button for the test-send function-->
+		<pre id="log_content"></pre>
+		<label for="text">Text: </label> 
+		<p><input type="text" id="text" name="text"/></p> <!--Text box for the "textSend" function-->
+		<p><button class="button" role="button" onclick="textSend()">Send</button></p> <!--Button for the test-send function-->
 	</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                        ws.onmessage = function (event) {
-                                                document.getElementById("msg").innerHTML = (event.data);
-                                        }
-                                        function add() {
-                                                var system_name = document.getElementById('system_name').value;
-                                                var reason = document.getElementById('reason').value;
-                                                ws.send("system_name: " + system_name);
-                                                ws.send("reason: " + reason);
-                                        }
-                                        const keepAlive = () => {
-                                                ws.send("ping");
-                                        };
-                                        setInterval(keepAlive, 20000);
-                                </script>
-                                <div id="msg"></div>
-                        </div>
-                </div>
-                <div class="footer-bar">
-                        <hr class="footer-hr">
-                        <text>IMI Compliance Dashboard | <strong>Control Panel</strong></text>
-                        <div class="the-ox">Designed by LOX</div>
-                </div>
-        </body>
 </html>
