@@ -34,5 +34,7 @@ A solution to allow you to interact with a Unix shell (Bash) bidirectionally usi
     - Host the `index.html` or run it locally.
 
     - Remember to change the websocket connector to match your server's IP/hostname/port - use "ws://" for no TLS, or "wss://" if you're using TLS.
+
+:warning: WARNING: Not for production use due to limited security measures. Be sure to implement TLS at a minimum.
 # Notes
 With kind help from @Morgester
