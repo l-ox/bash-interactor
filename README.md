@@ -21,11 +21,9 @@ A solution to allow you to interact with a Unix shell (Bash) bidirectionally usi
    
    `sudo npm install exec`
 
-3) Create websocket server run file, give it executable permissions, and start it running.
+3) Create websocket server run file and start it running.
 
    `sudo vi websocket_server.js` --> input websocket_server code from this repo, remembering to change the script paths and listen port to your requirements.
-   
-   `sudo chmod +x websocket_server.js`
    
    `sudo nodejs websocket_server.js`
 
